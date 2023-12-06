@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller1">
+    <children>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <AnchorPane fx:id="si_loginForm" layoutX="400.0" prefHeight="535.0" prefWidth="400.0" styleClass="white-form" stylesheets="@loginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label layoutX="45.0" layoutY="87.0" styleClass="head-label" stylesheets="@loginDesign.css" text="ĐĂNG NHẬP" textFill="#0aa6c9">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="si_username" layoutX="45.0" layoutY="201.0" prefHeight="40.0" prefWidth="280.0" promptText="Tên đăng nhập" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <PasswordField fx:id="si_password" layoutX="45.0" layoutY="268.0" prefHeight="40.0" prefWidth="280.0" promptText="Mật khẩu" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <Hyperlink fx:id="si_forgotPass" layoutX="45.0" layoutY="331.0" onAction="#switchForgotPass" text="Quên mật khẩu ?" />
+                        <Button fx:id="si_loginBtn" layoutX="136.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="40.0" prefWidth="116.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Xác nhận" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="su_signupForm" prefHeight="535.0" prefWidth="400.0" styleClass="white-form" stylesheets="@loginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label layoutX="45.0" layoutY="87.0" styleClass="head-label" stylesheets="@loginDesign.css" text="ĐĂNG KÝ TÀI KHOẢN" textFill="#0aa6c9">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="su_username" layoutX="44.0" layoutY="159.0" prefHeight="40.0" prefWidth="280.0" promptText="Tên đăng nhập" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <PasswordField fx:id="su_password" layoutX="43.0" layoutY="228.0" prefHeight="40.0" prefWidth="280.0" promptText="Mật khẩu" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <Button fx:id="su_signupBtn" layoutX="126.0" layoutY="432.0" mnemonicParsing="false" onAction="#handleSignupButtonAction" prefHeight="40.0" prefWidth="116.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Đăng kí" />
+                  <TextField fx:id="su_sdt" layoutX="43.0" layoutY="294.0" prefHeight="40.0" prefWidth="280.0" promptText="Số điện thoại" styleClass="textfield" stylesheets="@loginDesign.css" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="fp_questionForm" layoutX="400.0" layoutY="5.0" prefHeight="535.0" prefWidth="400.0" styleClass="white-form" stylesheets="@loginDesign.css" visible="false">
+                    <children>
+                        <Label layoutX="45.0" layoutY="87.0" styleClass="head-label" stylesheets="@loginDesign.css" text="QUÊN MẬT KHẨU" textFill="#0aa6c9">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="fp_proceedBtn" layoutX="127.0" layoutY="337.0" mnemonicParsing="false" onAction="#handleProceedButtonAction" prefHeight="40.0" prefWidth="116.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Tiếp tục" />
+                        <TextField fx:id="fp_sdt" layoutX="45.0" layoutY="268.0" prefHeight="40.0" prefWidth="280.0" promptText="SDT" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <Button fx:id="fb_backBtn" alignment="CENTER" layoutX="136.0" layoutY="468.0" mnemonicParsing="false" onAction="#backToLoginForm" prefHeight="40.0" prefWidth="99.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Trở lại" />
+                  <TextField fx:id="fp_username" layoutX="45.0" layoutY="200.0" prefHeight="40.0" prefWidth="280.0" promptText="Tên đăng nhập" styleClass="textfield" stylesheets="@loginDesign.css" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="np_newPassForm" layoutX="400.0" layoutY="7.0" prefHeight="535.0" prefWidth="400.0" styleClass="white-form" stylesheets="@loginDesign.css" visible="false">
+                    <children>
+                        <Label layoutX="45.0" layoutY="87.0" styleClass="head-label" stylesheets="@loginDesign.css" text="QUÊN MẬT KHẨU" textFill="#0aa6c9">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                        <PasswordField fx:id="np_newPassword" layoutX="57.0" layoutY="189.0" prefHeight="40.0" prefWidth="287.0" promptText="Mật khẩu mới" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <PasswordField fx:id="np_confirmPassword" layoutX="57.0" layoutY="258.0" prefHeight="40.0" prefWidth="287.0" promptText="Nhập lại mật khẩu" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <Button fx:id="np_changePasswordBtn" layoutX="127.0" layoutY="337.0" mnemonicParsing="false" onAction="#handleChangePasswordButtonAction" prefHeight="40.0" prefWidth="116.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Đổi mật khẩu" />
+                        <Button fx:id="bp_backBtn" alignment="CENTER" layoutX="136.0" layoutY="468.0" mnemonicParsing="false" onAction="#backToQuestionForm" prefHeight="40.0" prefWidth="99.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Trở lại" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="side_form" prefHeight="535.0" prefWidth="400.0" styleClass="gradient" stylesheets="@loginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label layoutX="108.0" layoutY="395.0" text="TẠO TÀI KHOẢN" textFill="WHITE">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="side_CreateBtn" layoutX="124.0" layoutY="469.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="175.0" styleClass="create-btn" stylesheets="@loginDesign.css" text="Tạo tài khoản mới" AnchorPane.bottomAnchor="26.0">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="side_AlreadyHave" layoutX="124.0" layoutY="469.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="175.0" styleClass="create-btn" stylesheets="@loginDesign.css" text="Đã có tài khoản?" visible="false" AnchorPane.bottomAnchor="26.0">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Button>
+                        <Label layoutX="78.0" layoutY="268.0" text="Gaming Center Management System" textFill="WHITE">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icon/12133.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </children>
+</StackPane>
