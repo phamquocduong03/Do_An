@@ -24,7 +24,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class controller1 implements Initializable {
+public class controllerLogin implements Initializable {
     @FXML
     private Button bp_backBtn;
 
