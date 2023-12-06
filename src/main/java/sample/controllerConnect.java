@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Controller {
+public class controllerConnect {
 
 
     private static final String URL = "jdbc:sqlserver://DUONG:1433;databaseName=QuanLyTiemNet;user=DUONG10112003;password=@Duong10112003";

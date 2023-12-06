@@ -2,7 +2,6 @@ package sample;
 
 
 import javafx.animation.TranslateTransition;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,9 +15,6 @@ import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.util.Pair;
 
-import javax.print.attribute.standard.JobOriginatingUserName;
-import javax.swing.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -162,12 +158,12 @@ public class controllerLogin implements Initializable {
         String username = si_username.getText();
         String password = si_password.getText();
 
-        String url = Controller.getUrl();
+        String url = controllerConnect.getUrl();
         // Thực hiện truy vấn SQL để kiểm tra thông tin đăng nhập
         // Ví dụ: sử dụng PreparedStatement để tránh các vấn đề bảo mật liên quan đến SQL injection
         String query = "SELECT * FROM TAIKHOAN WHERE USERNAME = ? AND PASSWORD = ?";
 
-        try (Connection conn = DriverManager.getConnection(Controller.getUrl());
+        try (Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
              PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
@@ -236,7 +232,7 @@ public class controllerLogin implements Initializable {
     private boolean insertDataIntoDatabase(String username, String password, String phoneNumber) {
         boolean success = false;
         try {
-            Connection conn = DriverManager.getConnection(Controller.getUrl());
+            Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
             String query = "INSERT INTO TAIKHOAN (USERNAME, PASSWORD, SDT) VALUES (?, ?, ?)";
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -284,7 +280,7 @@ public class controllerLogin implements Initializable {
 
     private boolean checkLogin(String username, String sdt) {
         try {
-            Connection conn = DriverManager.getConnection(Controller.getUrl());
+            Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
             String query = "SELECT * FROM TAIKHOAN WHERE USERNAME = ? AND SDT = ?";
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -302,7 +298,7 @@ public class controllerLogin implements Initializable {
 
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(Controller.getUrl());
+        return DriverManager.getConnection(controllerConnect.getUrl());
     }
 
     private void closeConnection(Connection conn) {
