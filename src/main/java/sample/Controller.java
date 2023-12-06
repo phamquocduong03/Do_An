@@ -14,13 +14,12 @@ import java.sql.SQLException;
 public class Controller {
 
 
-
     private static final String URL = "jdbc:sqlserver://DUONG:1433;databaseName=QuanLyTiemNet;user=DUONG10112003;password=@Duong10112003";
 
-    public static String getUrl(){
+    public static String getUrl() {
         return URL;
-    }
 
+    }
 }
 
 
