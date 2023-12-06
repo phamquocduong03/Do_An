@@ -13,14 +13,6 @@ import java.sql.SQLException;
 
 public class Controller {
 
-    @FXML
-    private TableColumn<DataModel, String> baoHanhColumn;
-
-    @FXML
-    private TableColumn<DataModel, String> mayTinhColumn;
-
-    @FXML
-    private TableView<DataModel> tableView;
 
 
     private static final String URL = "jdbc:sqlserver://DUONG:1433;databaseName=QuanLyTiemNet;user=DUONG10112003;password=@Duong10112003";
