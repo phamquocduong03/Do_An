@@ -204,14 +204,14 @@
                                                             <Font size="18.0" />
                                                          </font>
                                                       </Label>
-                                                      <AnchorPane layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="PT1_cp1_Pane" layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="PT1_cp1" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
+                                                            <Button fx:id="PT1_cp1_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -232,14 +232,14 @@
                                                             </Button>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="PT1_cp2_Pane" layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="PT1_cp2" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
+                                                            <Button fx:id="PT1_cp2_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -406,14 +406,14 @@
                                                             <Font size="18.0" />
                                                          </font>
                                                       </Label>
-                                                      <AnchorPane layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="PT2_cp1_Pane" layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="PT2_cp1" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
+                                                            <Button fx:id="PT2_cp1_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -434,14 +434,14 @@
                                                             </Button>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="PT2_cp2_Pane" layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="PT2_cp2" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
+                                                            <Button fx:id="PT2_cp2_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -608,14 +608,14 @@
                                                             <Font size="18.0" />
                                                          </font>
                                                       </Label>
-                                                      <AnchorPane layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="VIP_cp1_Pane" layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="VIP_cp1" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
+                                                            <Button fx:id="VIP_cp1_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -636,14 +636,14 @@
                                                             </Button>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="VIP_cp2_pane" layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="VIP_cp2" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
+                                                            <Button fx:id="VIP_cp2_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>

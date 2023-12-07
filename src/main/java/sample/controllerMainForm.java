@@ -7,28 +7,54 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class controllerMainForm implements Initializable {
 
     @FXML
-    private Button PT1_cp1;
+    private Button PT1_cp1_Btn;
 
     @FXML
-    private Button PT1_cp2;
+    private AnchorPane PT1_cp1_Pane;
 
     @FXML
-    private Button PT2_cp1;
+    private Button PT1_cp2_Btn;
 
     @FXML
-    private Button PT2_cp2;
+    private AnchorPane PT1_cp2_Pane;
 
     @FXML
-    private Button VIP_cp1;
+    private Button PT2_cp1_Btn;
 
     @FXML
-    private Button VIP_cp2;
+    private AnchorPane PT2_cp1_Pane;
+
+    @FXML
+    private Button PT2_cp2_Btn;
+
+    @FXML
+    private AnchorPane PT2_cp2_Pane;
+
+    @FXML
+    private Button VIP_cp1_Btn;
+
+    @FXML
+    private AnchorPane VIP_cp1_Pane;
+
+    @FXML
+    private Button VIP_cp2_Btn;
+
+    @FXML
+    private AnchorPane VIP_cp2_pane;
 
     @FXML
     private AnchorPane optionsPanelPT1;
@@ -52,23 +78,28 @@ public class controllerMainForm implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setButtonStatus(PT1_cp1, true); // Giả sử máy tính 1 đang được sử dụng
-        setButtonStatus(PT1_cp2, false); // Giả sử máy tính 2 không được sử dụng
-        setButtonStatus(PT2_cp1, true);
-        setButtonStatus(PT2_cp2, true);
-        setButtonStatus(VIP_cp1, false);
-        setButtonStatus(VIP_cp2, true);
+        setButtonStatus(PT1_cp1_Btn, false); // Giả sử máy tính 1 đang được sử dụng
+        setButtonStatus(PT1_cp2_Btn, false); // Giả sử máy tính 2 không được sử dụng
+        setButtonStatus(PT2_cp1_Btn, false);
+        setButtonStatus(PT2_cp2_Btn, false);
+        setButtonStatus(VIP_cp1_Btn, false);
+        setButtonStatus(VIP_cp2_Btn, false);
 
         // Cài đặt trạng thái cho các nút khác tương tự
 
-        PT1_cp1.setOnAction(this::handleButtonAction_PT1);
-        PT1_cp2.setOnAction(this::handleButtonAction_PT1);
+        PT1_cp1_Btn.setOnAction(this::handleButtonAction_PT1);
+        PT1_cp2_Btn.setOnAction(this::handleButtonAction_PT1);
 
-        PT2_cp1.setOnAction(this::handleButtonAction_PT2);
-        PT2_cp2.setOnAction(this::handleButtonAction_PT2);
+        PT2_cp1_Btn.setOnAction(this::handleButtonAction_PT2);
+        PT2_cp2_Btn.setOnAction(this::handleButtonAction_PT2);
 
-        VIP_cp1.setOnAction(this::handleButtonAction_VIP);
-        VIP_cp2.setOnAction(this::handleButtonAction_VIP);
+        VIP_cp1_Btn.setOnAction(this::handleButtonAction_VIP);
+        VIP_cp2_Btn.setOnAction(this::handleButtonAction_VIP);
+
+
+
+        loadDataToAnchorPane("MAY01",PT1_cp1_Pane);
+        loadDataToAnchorPane("MAY02", PT1_cp2_Pane);
 
     }
 
@@ -164,5 +195,34 @@ public class controllerMainForm implements Initializable {
         }
 
     }
+
+    public void loadDataToAnchorPane(String maMay, AnchorPane anchorPane) {
+        try {
+            Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
+            String query = "SELECT MAMAY, PHONG FROM MAYTINH WHERE MAMAY = ?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, maMay);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String retrievedMaMay = resultSet.getString("MAMAY");
+                String phong = resultSet.getString("PHONG");
+
+                controllerComputerInfo computerInfo = new controllerComputerInfo();
+                computerInfo.setMaMay(retrievedMaMay);
+                computerInfo.setPhong(phong);
+
+                anchorPane.setUserData(computerInfo);
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 }
