@@ -6,7 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-
+import management.DAO.MayTinhDAO;
+import management.model.MayTinh;
 
 
 import java.sql.Connection;
@@ -198,16 +199,30 @@ public class controllerMainForm implements Initializable {
 
     public void loadDataToAnchorPane(String maMay, AnchorPane anchorPane) {
         try {
-            Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
-            String query = "SELECT MAMAY, PHONG FROM MAYTINH WHERE MAMAY = ?";
-
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, maMay);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                String retrievedMaMay = resultSet.getString("MAMAY");
-                String phong = resultSet.getString("PHONG");
+//            Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
+//            String query = "SELECT MAMAY, PHONG FROM MAYTINH WHERE MAMAY = ?";
+//
+//            PreparedStatement preparedStatement = conn.prepareStatement(query);
+//            preparedStatement.setString(1, maMay);
+//
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            if (resultSet.next()) {
+//                String retrievedMaMay = resultSet.getString("MAMAY");
+//                String phong = resultSet.getString("PHONG");
+//
+//                controllerComputerInfo computerInfo = new controllerComputerInfo();
+//                computerInfo.setMaMay(retrievedMaMay);
+//                computerInfo.setPhong(phong);
+//
+//                anchorPane.setUserData(computerInfo);
+//            }
+//
+//            conn.close();
+            MayTinhDAO dao = new MayTinhDAO();
+            MayTinh mt = dao.findByMamay(maMay);
+            if (mt != null) {
+                String retrievedMaMay = mt.getMaMay();
+                String phong = mt.getPhong();
 
                 controllerComputerInfo computerInfo = new controllerComputerInfo();
                 computerInfo.setMaMay(retrievedMaMay);
@@ -215,9 +230,7 @@ public class controllerMainForm implements Initializable {
 
                 anchorPane.setUserData(computerInfo);
             }
-
-            conn.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

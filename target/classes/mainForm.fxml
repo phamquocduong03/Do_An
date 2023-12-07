@@ -204,7 +204,7 @@
                                                             <Font size="18.0" />
                                                          </font>
                                                       </Label>
-                                                      <AnchorPane layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="PT1_cp1_Pane" layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
@@ -232,7 +232,7 @@
                                                             </Button>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="PT1_cp2_Pane" layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
@@ -406,7 +406,7 @@
                                                             <Font size="18.0" />
                                                          </font>
                                                       </Label>
-                                                      <AnchorPane layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="PT2_cp1_Pane" layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
@@ -434,7 +434,7 @@
                                                             </Button>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="PT2_cp2_Pane" layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
@@ -608,7 +608,7 @@
                                                             <Font size="18.0" />
                                                          </font>
                                                       </Label>
-                                                      <AnchorPane layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="VIP_cp1_Pane" layoutX="15.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
@@ -636,7 +636,7 @@
                                                             </Button>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
+                                                      <AnchorPane fx:id="VIP_cp2_pane" layoutX="90.0" layoutY="60.0" prefHeight="70.0" prefWidth="68.0">
                                                          <children>
                                                             <ImageView fitHeight="24.0" fitWidth="33.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
