@@ -7,6 +7,14 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -182,5 +190,39 @@ public class controllerMainForm implements Initializable {
         }
 
     }
+
+
+    public void loadDataFromDatabase() {
+        try {
+            Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
+            String query = "SELECT MAMAY, PHONG FROM MAYTINH WHERE MAMAY = ?";
+
+            // Ví dụ: lấy thông tin máy tính có mã máy là "MAY01"
+            String maMay = "MAY01";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, maMay);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String retrievedMaMay = resultSet.getString("MAMAY");
+                String phong = resultSet.getString("PHONG");
+
+                controllerComputerInfo computerInfo = new controllerComputerInfo();
+                computerInfo.setMaMay(retrievedMaMay);
+                computerInfo.setPhong(phong);
+
+                // Liên kết thông tin với AnchorPane
+                PT1_cp1_Pane.setUserData(computerInfo);
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 }
