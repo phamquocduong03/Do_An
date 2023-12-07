@@ -52,12 +52,12 @@ public class controllerMainForm implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setButtonStatus(PT1_cp1, true); // Giả sử máy tính 1 đang được sử dụng
+        setButtonStatus(PT1_cp1, false); // Giả sử máy tính 1 đang được sử dụng
         setButtonStatus(PT1_cp2, false); // Giả sử máy tính 2 không được sử dụng
-        setButtonStatus(PT2_cp1, true);
-        setButtonStatus(PT2_cp2, true);
+        setButtonStatus(PT2_cp1, false);
+        setButtonStatus(PT2_cp2, false);
         setButtonStatus(VIP_cp1, false);
-        setButtonStatus(VIP_cp2, true);
+        setButtonStatus(VIP_cp2, false);
 
         // Cài đặt trạng thái cho các nút khác tương tự
 
