@@ -20,4 +20,5 @@ public class controllerComputerInfo {
         this.phong = phong;
     }
 
+
 }

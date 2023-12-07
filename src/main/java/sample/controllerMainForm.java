@@ -96,6 +96,11 @@ public class controllerMainForm implements Initializable {
         VIP_cp1_Btn.setOnAction(this::handleButtonAction_VIP);
         VIP_cp2_Btn.setOnAction(this::handleButtonAction_VIP);
 
+
+
+        loadDataToAnchorPane("MAY01",PT1_cp1_Pane);
+        loadDataToAnchorPane("MAY02", PT1_cp2_Pane);
+
     }
 
     private void setButtonStatus(Button button, boolean isUsed) {
@@ -191,14 +196,10 @@ public class controllerMainForm implements Initializable {
 
     }
 
-
-    public void loadDataFromDatabase() {
+    public void loadDataToAnchorPane(String maMay, AnchorPane anchorPane) {
         try {
             Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
             String query = "SELECT MAMAY, PHONG FROM MAYTINH WHERE MAMAY = ?";
-
-            // Ví dụ: lấy thông tin máy tính có mã máy là "MAY01"
-            String maMay = "MAY01";
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, maMay);
@@ -212,8 +213,7 @@ public class controllerMainForm implements Initializable {
                 computerInfo.setMaMay(retrievedMaMay);
                 computerInfo.setPhong(phong);
 
-                // Liên kết thông tin với AnchorPane
-                PT1_cp1_Pane.setUserData(computerInfo);
+                anchorPane.setUserData(computerInfo);
             }
 
             conn.close();
