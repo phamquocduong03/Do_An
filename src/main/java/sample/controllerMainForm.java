@@ -221,21 +221,11 @@ public class controllerMainForm implements Initializable {
             MayTinhDAO dao = new MayTinhDAO();
             MayTinh mt = dao.findByMamay(maMay);
             if (mt != null) {
-                String retrievedMaMay = mt.getMaMay();
-                String phong = mt.getPhong();
-
-                controllerComputerInfo computerInfo = new controllerComputerInfo();
-                computerInfo.setMaMay(retrievedMaMay);
-                computerInfo.setPhong(phong);
-
-                anchorPane.setUserData(computerInfo);
+                anchorPane.setUserData(mt);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
 
 }
