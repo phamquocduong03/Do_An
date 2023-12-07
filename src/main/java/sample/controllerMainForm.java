@@ -16,19 +16,37 @@ public class controllerMainForm implements Initializable {
     private Button PT1_cp1_Btn;
 
     @FXML
+    private AnchorPane PT1_cp1_Pane;
+
+    @FXML
     private Button PT1_cp2_Btn;
+
+    @FXML
+    private AnchorPane PT1_cp2_Pane;
 
     @FXML
     private Button PT2_cp1_Btn;
 
     @FXML
+    private AnchorPane PT2_cp1_Pane;
+
+    @FXML
     private Button PT2_cp2_Btn;
+
+    @FXML
+    private AnchorPane PT2_cp2_Pane;
 
     @FXML
     private Button VIP_cp1_Btn;
 
     @FXML
+    private AnchorPane VIP_cp1_Pane;
+
+    @FXML
     private Button VIP_cp2_Btn;
+
+    @FXML
+    private AnchorPane VIP_cp2_pane;
 
     @FXML
     private AnchorPane optionsPanelPT1;
@@ -44,6 +62,7 @@ public class controllerMainForm implements Initializable {
 
     @FXML
     private AnchorPane optionsPanelRed_VIP;
+
     @FXML
     private AnchorPane optionsPanelVIP;
 
