@@ -97,11 +97,6 @@ public class controllerMainForm implements Initializable {
         VIP_cp1_Btn.setOnAction(this::handleButtonAction_VIP);
         VIP_cp2_Btn.setOnAction(this::handleButtonAction_VIP);
 
-
-
-        loadDataToAnchorPane("MAY01",PT1_cp1_Pane);
-        loadDataToAnchorPane("MAY02", PT1_cp2_Pane);
-
     }
 
     private void setButtonStatus(Button button, boolean isUsed) {

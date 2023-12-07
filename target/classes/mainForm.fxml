@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -385,11 +386,16 @@
                                                       </AnchorPane>
                                                       <AnchorPane fx:id="optionsPanelRed_PT1" layoutY="293.0" prefHeight="37.0" prefWidth="120.0" visible="false">
                                                          <children>
-                                                            <Button layoutX="1.0" layoutY="4.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Kích hoạt">
+                                                            <Button fx:id="PT1_active" layoutX="1.0" layoutY="4.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Kích hoạt">
                                                                <font>
                                                                   <Font size="8.0" />
                                                                </font>
                                                             </Button>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane fx:id="PT1_Active_Pane" layoutX="53.0" layoutY="341.0" prefHeight="32.0" prefWidth="162.0" visible="false">
+                                                         <children>
+                                                            <TextField fx:id="PT1_Active_text_Field" layoutY="2.0" prefHeight="32.0" prefWidth="162.0" promptText="Tên tài khoản" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                          </children>
                                                       </AnchorPane>
                                                    </children>
