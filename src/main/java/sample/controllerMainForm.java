@@ -13,22 +13,22 @@ import java.util.ResourceBundle;
 public class controllerMainForm implements Initializable {
 
     @FXML
-    private Button PT1_cp1;
+    private Button PT1_cp1_Btn;
 
     @FXML
-    private Button PT1_cp2;
+    private Button PT1_cp2_Btn;
 
     @FXML
-    private Button PT2_cp1;
+    private Button PT2_cp1_Btn;
 
     @FXML
-    private Button PT2_cp2;
+    private Button PT2_cp2_Btn;
 
     @FXML
-    private Button VIP_cp1;
+    private Button VIP_cp1_Btn;
 
     @FXML
-    private Button VIP_cp2;
+    private Button VIP_cp2_Btn;
 
     @FXML
     private AnchorPane optionsPanelPT1;
@@ -44,7 +44,6 @@ public class controllerMainForm implements Initializable {
 
     @FXML
     private AnchorPane optionsPanelRed_VIP;
-
     @FXML
     private AnchorPane optionsPanelVIP;
 
@@ -52,23 +51,23 @@ public class controllerMainForm implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setButtonStatus(PT1_cp1, false); // Giả sử máy tính 1 đang được sử dụng
-        setButtonStatus(PT1_cp2, false); // Giả sử máy tính 2 không được sử dụng
-        setButtonStatus(PT2_cp1, false);
-        setButtonStatus(PT2_cp2, false);
-        setButtonStatus(VIP_cp1, false);
-        setButtonStatus(VIP_cp2, false);
+        setButtonStatus(PT1_cp1_Btn, false); // Giả sử máy tính 1 đang được sử dụng
+        setButtonStatus(PT1_cp2_Btn, false); // Giả sử máy tính 2 không được sử dụng
+        setButtonStatus(PT2_cp1_Btn, false);
+        setButtonStatus(PT2_cp2_Btn, false);
+        setButtonStatus(VIP_cp1_Btn, false);
+        setButtonStatus(VIP_cp2_Btn, false);
 
         // Cài đặt trạng thái cho các nút khác tương tự
 
-        PT1_cp1.setOnAction(this::handleButtonAction_PT1);
-        PT1_cp2.setOnAction(this::handleButtonAction_PT1);
+        PT1_cp1_Btn.setOnAction(this::handleButtonAction_PT1);
+        PT1_cp2_Btn.setOnAction(this::handleButtonAction_PT1);
 
-        PT2_cp1.setOnAction(this::handleButtonAction_PT2);
-        PT2_cp2.setOnAction(this::handleButtonAction_PT2);
+        PT2_cp1_Btn.setOnAction(this::handleButtonAction_PT2);
+        PT2_cp2_Btn.setOnAction(this::handleButtonAction_PT2);
 
-        VIP_cp1.setOnAction(this::handleButtonAction_VIP);
-        VIP_cp2.setOnAction(this::handleButtonAction_VIP);
+        VIP_cp1_Btn.setOnAction(this::handleButtonAction_VIP);
+        VIP_cp2_Btn.setOnAction(this::handleButtonAction_VIP);
 
     }
 

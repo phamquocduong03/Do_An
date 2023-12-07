@@ -211,7 +211,7 @@
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="PT1_cp1" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
+                                                            <Button fx:id="PT1_cp1_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -239,7 +239,7 @@
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="PT1_cp2" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
+                                                            <Button fx:id="PT1_cp2_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -413,7 +413,7 @@
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="PT2_cp1" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
+                                                            <Button fx:id="PT2_cp1_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -441,7 +441,7 @@
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="PT2_cp2" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
+                                                            <Button fx:id="PT2_cp2_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -615,7 +615,7 @@
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="VIP_cp1" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
+                                                            <Button fx:id="VIP_cp1_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 1">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
@@ -643,7 +643,7 @@
                                                                   <Image url="@icon/12133.png" />
                                                                </image>
                                                             </ImageView>
-                                                            <Button fx:id="VIP_cp2" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
+                                                            <Button fx:id="VIP_cp2_Btn" layoutX="26.0" layoutY="34.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="37.0" stylesheets="@mainFormDesign.css" text="Máy 2">
                                                                <font>
                                                                   <Font size="9.0" />
                                                                </font>
