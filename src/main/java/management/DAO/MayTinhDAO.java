@@ -36,7 +36,7 @@ public class MayTinhDAO {
         }
     }
 
-    public MayTinh findByMamay(String maMay) throws Exception {
+    public static MayTinh findByMamay(String maMay) throws Exception {
         String sql = "SELECT * FROM MAYTINH WHERE MAMAY = ?";
         try (
                 Connection con = DatabaseConfig.openConnection();

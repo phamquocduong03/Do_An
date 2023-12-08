@@ -4,10 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import management.DAO.MayTinhDAO;
+import management.DAO.TaiKhoanDAO;
+import management.DAO.ThongTinSuDungDAO;
 import management.model.MayTinh;
+import management.model.TaiKhoan;
+import management.model.ThongTinSuDung;
 
 
 import java.sql.Connection;
@@ -17,9 +22,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class controllerMainForm implements Initializable {
+
+    @FXML
+    private Button PT1_Active_Btn;
+    @FXML
+    private AnchorPane PT1_Active_Pane;
+
+    @FXML
+    private TextField PT1_Active_text_Field_SDT;
+
+    @FXML
+    private TextField PT1_Active_text_Field_name;
+
+    @FXML
+    private Button PT1_active;
 
     @FXML
     private Button PT1_cp1_Btn;
@@ -77,14 +97,27 @@ public class controllerMainForm implements Initializable {
 
     private Button selectedComputer;
 
+    private MayTinhDAO mayTinhDAO = new MayTinhDAO();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setButtonStatus(PT1_cp1_Btn, false); // Giả sử máy tính 1 đang được sử dụng
-        setButtonStatus(PT1_cp2_Btn, false); // Giả sử máy tính 2 không được sử dụng
-        setButtonStatus(PT2_cp1_Btn, false);
-        setButtonStatus(PT2_cp2_Btn, false);
-        setButtonStatus(VIP_cp1_Btn, false);
-        setButtonStatus(VIP_cp2_Btn, false);
+        // Đặt trạng thái hiển thị cho máy
+
+
+        try {
+            // Lấy thông tin của máy tính từ database dựa trên MAMAY
+            MayTinh mt1 = MayTinhDAO.findByMamay("MAY001");
+            MayTinh mt2 = MayTinhDAO.findByMamay("MAY002");
+            // Cập nhật trạng thái của AnchorPane tương ứng với dữ liệu lấy được từ database
+
+            setButtonStatus(PT1_cp1_Btn, mt1 != null && mt1.isTrangThai());
+            setButtonStatus(PT1_cp2_Btn, mt2 != null && mt2.isTrangThai());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
 
         // Cài đặt trạng thái cho các nút khác tương tự
 
@@ -98,6 +131,8 @@ public class controllerMainForm implements Initializable {
         VIP_cp2_Btn.setOnAction(this::handleButtonAction_VIP);
 
     }
+
+
 
     private void setButtonStatus(Button button, boolean isUsed) {
         if (isUsed) {
@@ -121,10 +156,56 @@ public class controllerMainForm implements Initializable {
             optionsPanelPT1.setLayoutX(clickedButton.getLayoutX());
             optionsPanelPT1.setLayoutY(clickedButton.getLayoutY() + clickedButton.getHeight());
         } else {
+            selectedComputer = clickedButton;
             // Ẩn optionsPanel nếu nút không có màu xanh
             optionsPanelRed_PT1.setVisible(true);
             optionsPanelRed_PT1.setLayoutX(clickedButton.getLayoutX());
             optionsPanelRed_PT1.setLayoutY(clickedButton.getLayoutY() + clickedButton.getHeight());
+        }
+    }
+
+
+    @FXML
+    private void handlePT1ActiveButtonAction(ActionEvent event) {
+        PT1_Active_Pane.setVisible(true);
+    }
+
+    @FXML
+    private void handleSaveAction(ActionEvent event) {
+        String username = PT1_Active_text_Field_name.getText();
+        String sdt = PT1_Active_text_Field_SDT.getText();
+
+        // Thực hiện truy vấn cơ sở dữ liệu thông qua TaiKhoanDAO để kiểm tra dữ liệu nhập vào
+        TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+        try {
+            List<TaiKhoan> lstTaiKhoan = taiKhoanDAO.getAll();
+            boolean matchFound = false;
+            for (TaiKhoan taiKhoan : lstTaiKhoan) {
+                if (taiKhoan.getUsername().equals(username) && taiKhoan.getSdt().equals(sdt)) {
+                    matchFound = true;
+                    // Tạo một đối tượng ThongTinSuDung từ dữ liệu nhập vào từ các TextField
+                    ThongTinSuDung thongTinSuDung = new ThongTinSuDung();
+                    thongTinSuDung.setMaMay(selectedComputer.getId()); // Lấy ID hoặc mã máy tính từ button đã chọn trước đó
+                    thongTinSuDung.setUsername(username);
+                    thongTinSuDung.setSdt(sdt);
+
+                    // Sử dụng một DAO mới để thêm dữ liệu mới vào bảng THONGTINSUDUNG
+                    ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
+                    try {
+                        thongTinSuDungDAO.addThongTinSuDung(thongTinSuDung);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        // Xử lý khi có lỗi xảy ra trong quá trình thêm dữ liệu mới vào bảng THONGTINSUDUNG
+                    }
+                    break;
+                }
+            }
+            if (!matchFound) {
+                System.out.println("Error line 203");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Xử lý khi có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
         }
     }
 
