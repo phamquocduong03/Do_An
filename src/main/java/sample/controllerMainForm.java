@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -97,31 +98,30 @@ public class controllerMainForm implements Initializable {
 
     private Button selectedComputer;
 
-    private MayTinhDAO mayTinhDAO = new MayTinhDAO();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Đặt trạng thái hiển thị cho máy
-
+        MayTinh mt1 = null;
+        MayTinh mt2 = null;
 
         try {
             // Lấy thông tin của máy tính từ database dựa trên MAMAY
-            MayTinh mt1 = MayTinhDAO.findByMamay("MAY001");
-            MayTinh mt2 = MayTinhDAO.findByMamay("MAY002");
+            mt1 = MayTinhDAO.findByMamay("MAY001");
+            mt2 = MayTinhDAO.findByMamay("MAY002");
             // Cập nhật trạng thái của AnchorPane tương ứng với dữ liệu lấy được từ database
 
-            setButtonStatus(PT1_cp1_Btn, mt1 != null && mt1.isTrangThai());
-            setButtonStatus(PT1_cp2_Btn, mt2 != null && mt2.isTrangThai());
+            setButtonStatus(PT1_cp1_Btn, mt1 != null && !mt1.isCoSan());
+            setButtonStatus(PT1_cp2_Btn, mt2 != null && !mt2.isCoSan());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-
-
-
         // Cài đặt trạng thái cho các nút khác tương tự
 
         PT1_cp1_Btn.setOnAction(this::handleButtonAction_PT1);
+        if (mt1 != null) {
+            PT1_cp1_Btn.setUserData(mt1);
+        }
         PT1_cp2_Btn.setOnAction(this::handleButtonAction_PT1);
 
         PT2_cp1_Btn.setOnAction(this::handleButtonAction_PT2);
@@ -150,6 +150,7 @@ public class controllerMainForm implements Initializable {
         if (clickedButton.getStyle().contains("background-color: #00FF00;")) {
             // Cập nhật máy tính hiện tại được chọn
             selectedComputer = clickedButton;
+            System.out.println(selectedComputer.getUserData());
             // Hiển thị optionsPanel nếu nút có màu xanh
             optionsPanelPT1.setVisible(true);
             //optionsPanelVIP.setVisible(true);
@@ -174,6 +175,8 @@ public class controllerMainForm implements Initializable {
     private void handleSaveAction(ActionEvent event) {
         String username = PT1_Active_text_Field_name.getText();
         String sdt = PT1_Active_text_Field_SDT.getText();
+        MayTinh mt1 = (MayTinh) selectedComputer.getUserData();
+        String may = mt1.getMaMay();
 
         // Thực hiện truy vấn cơ sở dữ liệu thông qua TaiKhoanDAO để kiểm tra dữ liệu nhập vào
         TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
@@ -185,9 +188,18 @@ public class controllerMainForm implements Initializable {
                     matchFound = true;
                     // Tạo một đối tượng ThongTinSuDung từ dữ liệu nhập vào từ các TextField
                     ThongTinSuDung thongTinSuDung = new ThongTinSuDung();
-                    thongTinSuDung.setMaMay(selectedComputer.getId()); // Lấy ID hoặc mã máy tính từ button đã chọn trước đó
+                    thongTinSuDung.setMaMay(may); // Lấy ID hoặc mã máy tính từ button đã chọn trước đó
                     thongTinSuDung.setUsername(username);
                     thongTinSuDung.setSdt(sdt);
+
+                    // Khai báo 1 biến kiểu LocalDateTime và khởi tạo 1 giá trị ngẫu nhiên cho nó
+                    // Khi insert 1 dòng mới vào bảng THONGTINSUDUNG thì dùng giá trị này làm TGBATDAU và TGKETTHUC
+                    // Điều này không ảnh hưởng gì đến tính chính xác của dữ liệu vì trigger sẽ tự động tính lại TGBATDAU và TGKETTHUC
+                    LocalDateTime l = LocalDateTime.now();
+
+                    thongTinSuDung.setTgBatDau(l);
+                    thongTinSuDung.setTgKetThuc(l);
+                    thongTinSuDung.setDangSuDung(true);
 
                     // Sử dụng một DAO mới để thêm dữ liệu mới vào bảng THONGTINSUDUNG
                     ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
