@@ -1,8 +1,12 @@
 package sample;
 
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalUnit;
 import java.time.temporal.ChronoUnit;
 import com.sun.source.tree.IfTree;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 import management.DAO.MayTinhDAO;
 import management.DAO.TaiKhoanDAO;
 import management.DAO.ThongTinSuDungDAO;
@@ -28,7 +34,6 @@ import java.sql.SQLException;
 
 import java.net.URL;
 //import java.time.LocalDateTime;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -132,7 +137,10 @@ public class controllerMainForm implements Initializable {
     @FXML
     private AnchorPane optionsPanelVIP;
 
+    @FXML
+    private Text timer;
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     private Button selectedComputer;
 
     private MayTinh selectedMT;
@@ -157,11 +165,26 @@ public class controllerMainForm implements Initializable {
             e.printStackTrace();
         }
 
+        timer.setText(String.valueOf(LocalDateTime.now()));
 
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
 
     }
 
+    Timeline timeline = new Timeline(
+            new KeyFrame(Duration.seconds(1),
+                e-> {
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime truncatedNow = now.truncatedTo(ChronoUnit.SECONDS);
 
+                    LocalDateTime dt1 = LocalDateTime.of(2023, Month.DECEMBER, 14, 22, 20, 50);
+                    LocalDateTime truncatedDt1 = dt1.truncatedTo(ChronoUnit.SECONDS);
+                    if (truncatedNow.isEqual(truncatedDt1)) {
+                        System.out.println("ALARM");
+                    }
+                    timer.setText(LocalDateTime.now().format(formatter));
+    }));
 
     public void setButtonStatus(Button button, boolean isUsed, MayTinh mayTinh) {
         if (isUsed) {
