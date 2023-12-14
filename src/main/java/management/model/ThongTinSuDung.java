@@ -66,4 +66,5 @@ public class ThongTinSuDung {
     public void setDangSuDung(boolean dangSuDung) {
         this.dangSuDung = dangSuDung;
     }
+
 }

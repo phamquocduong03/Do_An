@@ -196,9 +196,9 @@
                                  <children>
                                     <ScrollPane prefHeight="399.0" prefWidth="854.0">
                                       <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="390.0" prefWidth="1012.0">
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="390.0" prefWidth="1011.0">
                                              <children>
-                                                <AnchorPane layoutX="3.0" layoutY="2.0" onMouseClicked="#onRootPaneClicked" prefHeight="387.0" prefWidth="327.0" stylesheets="@mainFormDesign.css">
+                                                <AnchorPane layoutX="3.0" layoutY="2.0" onMouseClicked="#onRootPaneClicked" prefHeight="387.0" prefWidth="328.0" stylesheets="@mainFormDesign.css">
                                                    <children>
                                                       <Label layoutX="91.0" layoutY="14.0" text=" Phòng thường 1" textFill="WHITE">
                                                          <font>
@@ -373,15 +373,14 @@
                                                             </Button>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane fx:id="optionsPanelPT1" layoutX="214.0" layoutY="280.0" prefHeight="106.0" prefWidth="120.0" visible="false">
+                                                      <AnchorPane fx:id="optionsPanelPT1" layoutX="193.0" layoutY="260.0" prefHeight="65.0" prefWidth="120.0" visible="false">
                                                          <children>
-                                                            <Button layoutX="1.0" layoutY="7.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Tính tiền" />
-                                                            <Button layoutX="1.0" layoutY="39.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Tắt máy">
+                                                            <Button fx:id="PT1_TurnOff_Btn" layoutX="1.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleTurnOffAction" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Tắt máy">
                                                                <font>
                                                                   <Font size="8.0" />
                                                                </font>
                                                             </Button>
-                                                            <Button layoutX="1.0" layoutY="71.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="119.0" styleClass="nav-btn" text="Nạp tiền" />
+                                                            <Button fx:id="PT1_Recharge_Btn" layoutX="1.0" layoutY="71.0" mnemonicParsing="false" onAction="#handleRechargeAction" prefHeight="29.0" prefWidth="119.0" styleClass="nav-btn" text="Nạp tiền" />
                                                          </children>
                                                       </AnchorPane>
                                                       <AnchorPane fx:id="optionsPanelRed_PT1" layoutY="293.0" prefHeight="37.0" prefWidth="120.0" visible="false">
@@ -397,7 +396,13 @@
                                                          <children>
                                                             <TextField fx:id="PT1_Active_text_Field_name" prefHeight="40.0" prefWidth="160.0" promptText="Tên tài khoản" />
                                                             <TextField fx:id="PT1_Active_text_Field_SDT" layoutY="40.0" prefHeight="40.0" prefWidth="160.0" promptText="SDT" />
-                                                            <Button fx:id="PT1_Active_Btn" layoutX="64.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleSaveAction" prefHeight="25.0" text="OK" />
+                                                            <Button fx:id="PT1_Active_Btn" layoutX="64.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleSaveActionPT1" prefHeight="25.0" text="OK" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane fx:id="PT1_Type_Money_Pane" layoutX="49.0" layoutY="293.0" prefHeight="57.0" prefWidth="150.0" visible="false">
+                                                         <children>
+                                                            <TextField fx:id="PT1_Type_Money" prefHeight="31.0" prefWidth="150.0" promptText="Nhập số tiền" />
+                                                            <Button fx:id="PT1_Ok_Recharge_Btn" layoutX="49.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleOKAction" text="Button" />
                                                          </children>
                                                       </AnchorPane>
                                                    </children>
@@ -407,7 +412,7 @@
                                                       <String fx:value="shadow" />
                                                    </styleClass>
                                                 </AnchorPane>
-                                                <AnchorPane layoutX="343.0" layoutY="2.0" onMouseClicked="#onRootPaneClicked" prefHeight="387.0" prefWidth="327.0" stylesheets="@mainFormDesign.css">
+                                                <AnchorPane layoutX="337.0" layoutY="2.0" onMouseClicked="#onRootPaneClicked" prefHeight="387.0" prefWidth="328.0" stylesheets="@mainFormDesign.css">
                                                    <children>
                                                       <Label layoutX="100.0" layoutY="14.0" text="Phòng thường 2" textFill="WHITE">
                                                          <font>
@@ -584,8 +589,7 @@
                                                       </AnchorPane>
                                                       <AnchorPane fx:id="optionsPanelPT2" layoutX="89.0" layoutY="249.0" prefHeight="106.0" prefWidth="120.0" visible="false">
                                                          <children>
-                                                            <Button layoutX="1.0" layoutY="7.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Tính tiền" />
-                                                            <Button layoutX="1.0" layoutY="39.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Tắt máy">
+                                                            <Button layoutX="1.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleTurnOffActionPT2" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Tắt máy">
                                                                <font>
                                                                   <Font size="8.0" />
                                                                </font>
@@ -595,11 +599,18 @@
                                                       </AnchorPane>
                                                       <AnchorPane fx:id="optionsPanelRed_PT2" layoutX="49.0" layoutY="327.0" prefHeight="37.0" prefWidth="120.0" visible="false">
                                                          <children>
-                                                            <Button layoutX="1.0" layoutY="4.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Kích hoạt">
+                                                            <Button layoutX="1.0" layoutY="4.0" mnemonicParsing="false" onAction="#handlePT2ActiveButtonAction" prefHeight="32.0" prefWidth="119.0" styleClass="nav-btn" stylesheets="@mainFormDesign.css" text="Kích hoạt">
                                                                <font>
                                                                   <Font size="8.0" />
                                                                </font>
                                                             </Button>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane fx:id="PT2_Active_Pane" layoutX="20.0" layoutY="266.0" prefHeight="105.0" prefWidth="160.0" visible="false">
+                                                         <children>
+                                                            <TextField fx:id="PT2_Active_text_Field_name" prefHeight="40.0" prefWidth="160.0" promptText="Tên tài khoản" />
+                                                            <TextField fx:id="PT2_Active_text_Field_SDT" layoutY="40.0" prefHeight="40.0" prefWidth="160.0" promptText="SDT" />
+                                                            <Button fx:id="PT2_Active_Btn" layoutX="64.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleSaveActionPT2" prefHeight="25.0" text="OK" />
                                                          </children>
                                                       </AnchorPane>
                                                    </children>
@@ -609,7 +620,7 @@
                                                       <String fx:value="shadow" />
                                                    </styleClass>
                                                 </AnchorPane>
-                                                <AnchorPane layoutX="676.0" layoutY="2.0" onMouseClicked="#onRootPaneClicked" prefHeight="387.0" prefWidth="327.0" stylesheets="@mainFormDesign.css">
+                                                <AnchorPane layoutX="671.0" layoutY="2.0" onMouseClicked="#onRootPaneClicked" prefHeight="387.0" prefWidth="328.0" stylesheets="@mainFormDesign.css">
                                                    <children>
                                                       <Label layoutX="117.0" layoutY="14.0" text="Phòng Vip" textFill="WHITE">
                                                          <font>

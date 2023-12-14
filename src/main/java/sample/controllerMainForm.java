@@ -1,8 +1,13 @@
 package sample;
 
+import java.time.temporal.TemporalUnit;
+import java.time.temporal.ChronoUnit;
+import com.sun.source.tree.IfTree;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -22,22 +27,50 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.net.URL;
+//import java.time.LocalDateTime;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class controllerMainForm implements Initializable {
+    @FXML
+    private TextField PT2_Active_text_Field_SDT;
 
     @FXML
+    private TextField PT2_Active_text_Field_name;
+    @FXML
     private Button PT1_Active_Btn;
+
+    @FXML
+    private Button PT1_Active_Btn1;
+
     @FXML
     private AnchorPane PT1_Active_Pane;
 
     @FXML
     private TextField PT1_Active_text_Field_SDT;
 
+
     @FXML
     private TextField PT1_Active_text_Field_name;
+
+    @FXML
+    private Button PT1_Ok_Recharge_Btn;
+
+    @FXML
+    private Button PT1_Recharge_Btn;
+
+    @FXML
+    private Button PT1_TurnOff_Btn;
+
+    @FXML
+    private TextField PT1_Type_Money;
+
+    @FXML
+    private AnchorPane PT1_Type_Money_Pane;
 
     @FXML
     private Button PT1_active;
@@ -53,6 +86,9 @@ public class controllerMainForm implements Initializable {
 
     @FXML
     private AnchorPane PT1_cp2_Pane;
+
+    @FXML
+    private AnchorPane PT2_Active_Pane;
 
     @FXML
     private Button PT2_cp1_Btn;
@@ -96,45 +132,38 @@ public class controllerMainForm implements Initializable {
     @FXML
     private AnchorPane optionsPanelVIP;
 
+
     private Button selectedComputer;
 
+    private MayTinh selectedMT;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Đặt trạng thái hiển thị cho máy
         MayTinh mt1 = null;
         MayTinh mt2 = null;
+        MayTinh mt4 = null;
 
         try {
             // Lấy thông tin của máy tính từ database dựa trên MAMAY
             mt1 = MayTinhDAO.findByMamay("MAY001");
             mt2 = MayTinhDAO.findByMamay("MAY002");
+            mt4 = MayTinhDAO.findByMamay("MAY004");
             // Cập nhật trạng thái của AnchorPane tương ứng với dữ liệu lấy được từ database
 
-            setButtonStatus(PT1_cp1_Btn, mt1 != null && !mt1.isCoSan());
-            setButtonStatus(PT1_cp2_Btn, mt2 != null && !mt2.isCoSan());
+            setButtonStatus(PT1_cp1_Btn, mt1 != null && !mt1.isCoSan(), mt1);
+            setButtonStatus(PT1_cp2_Btn, mt2 != null && !mt2.isCoSan(), mt2);
+            setButtonStatus_PT2(PT2_cp1_Btn, mt4 != null && !mt4.isCoSan(), mt4);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // Cài đặt trạng thái cho các nút khác tương tự
 
-        PT1_cp1_Btn.setOnAction(this::handleButtonAction_PT1);
-        if (mt1 != null) {
-            PT1_cp1_Btn.setUserData(mt1);
-        }
-        PT1_cp2_Btn.setOnAction(this::handleButtonAction_PT1);
-
-        PT2_cp1_Btn.setOnAction(this::handleButtonAction_PT2);
-        PT2_cp2_Btn.setOnAction(this::handleButtonAction_PT2);
-
-        VIP_cp1_Btn.setOnAction(this::handleButtonAction_VIP);
-        VIP_cp2_Btn.setOnAction(this::handleButtonAction_VIP);
 
     }
 
 
 
-    private void setButtonStatus(Button button, boolean isUsed) {
+    public void setButtonStatus(Button button, boolean isUsed, MayTinh mayTinh) {
         if (isUsed) {
             button.setText("Onl");
             button.setStyle("-fx-background-color: #00FF00;"); // Màu Xanh
@@ -142,122 +171,279 @@ public class controllerMainForm implements Initializable {
             button.setText("Off");
             button.setStyle("-fx-background-color: #FF0000;"); // Màu Đỏ
         }
+
+        button.setOnAction(e -> {
+            selectedComputer = button;
+            selectedMT = mayTinh; // Cập nhật thông tin máy tính được chọn
+            if (isUsed) {
+                optionsPanelPT1.setVisible(true);
+                optionsPanelPT1.setLayoutX(button.getLayoutX());
+                optionsPanelPT1.setLayoutY(button.getLayoutY() + button.getHeight());
+            } else {
+                optionsPanelRed_PT1.setVisible(true);
+                optionsPanelRed_PT1.setLayoutX(button.getLayoutX());
+                optionsPanelRed_PT1.setLayoutY(button.getLayoutY() + button.getHeight());
+            }
+        });
     }
 
-    public void handleButtonAction_PT1(ActionEvent event) {
-        Button clickedButton = (Button)event.getSource();
-        // Kiểm tra nếu nút có màu xanh
-        if (clickedButton.getStyle().contains("background-color: #00FF00;")) {
-            // Cập nhật máy tính hiện tại được chọn
-            selectedComputer = clickedButton;
-            System.out.println(selectedComputer.getUserData());
-            // Hiển thị optionsPanel nếu nút có màu xanh
-            optionsPanelPT1.setVisible(true);
-            //optionsPanelVIP.setVisible(true);
-            optionsPanelPT1.setLayoutX(clickedButton.getLayoutX());
-            optionsPanelPT1.setLayoutY(clickedButton.getLayoutY() + clickedButton.getHeight());
+    public void setButtonStatus_PT2(Button button, boolean isUsed, MayTinh mayTinh) {
+        if (isUsed) {
+            button.setText("Onl");
+            button.setStyle("-fx-background-color: #00FF00;"); // Màu Xanh
         } else {
-            selectedComputer = clickedButton;
-            // Ẩn optionsPanel nếu nút không có màu xanh
-            optionsPanelRed_PT1.setVisible(true);
-            optionsPanelRed_PT1.setLayoutX(clickedButton.getLayoutX());
-            optionsPanelRed_PT1.setLayoutY(clickedButton.getLayoutY() + clickedButton.getHeight());
+            button.setText("Off");
+            button.setStyle("-fx-background-color: #FF0000;"); // Màu Đỏ
         }
+
+        button.setOnAction(e -> {
+            selectedComputer = button;
+            selectedMT = mayTinh; // Cập nhật thông tin máy tính được chọn
+            if (isUsed) {
+                optionsPanelPT2.setVisible(true);
+                optionsPanelPT2.setLayoutX(button.getLayoutX());
+                optionsPanelPT2.setLayoutY(button.getLayoutY() + button.getHeight());
+            } else {
+                optionsPanelRed_PT2.setVisible(true);
+                optionsPanelRed_PT2.setLayoutX(button.getLayoutX());
+                optionsPanelRed_PT2.setLayoutY(button.getLayoutY() + button.getHeight());
+            }
+        });
     }
 
+    public void handlePT1ActiveButtonAction(ActionEvent event) {
+        PT1_Active_Pane.setVisible(true);}
 
-    @FXML
-    private void handlePT1ActiveButtonAction(ActionEvent event) {
-        PT1_Active_Pane.setVisible(true);
-    }
+    public void handlePT2ActiveButtonAction(ActionEvent event) {
+        PT2_Active_Pane.setVisible(true);}
 
-    @FXML
-    private void handleSaveAction(ActionEvent event) {
+    public void handleSaveActionPT1(ActionEvent event) {
+
         String username = PT1_Active_text_Field_name.getText();
         String sdt = PT1_Active_text_Field_SDT.getText();
-        MayTinh mt1 = (MayTinh) selectedComputer.getUserData();
-        String may = mt1.getMaMay();
 
-        // Thực hiện truy vấn cơ sở dữ liệu thông qua TaiKhoanDAO để kiểm tra dữ liệu nhập vào
-        TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
-        try {
-            List<TaiKhoan> lstTaiKhoan = taiKhoanDAO.getAll();
-            boolean matchFound = false;
-            for (TaiKhoan taiKhoan : lstTaiKhoan) {
-                if (taiKhoan.getUsername().equals(username) && taiKhoan.getSdt().equals(sdt)) {
-                    matchFound = true;
-                    // Tạo một đối tượng ThongTinSuDung từ dữ liệu nhập vào từ các TextField
-                    ThongTinSuDung thongTinSuDung = new ThongTinSuDung();
-                    thongTinSuDung.setMaMay(may); // Lấy ID hoặc mã máy tính từ button đã chọn trước đó
-                    thongTinSuDung.setUsername(username);
-                    thongTinSuDung.setSdt(sdt);
 
-                    // Khai báo 1 biến kiểu LocalDateTime và khởi tạo 1 giá trị ngẫu nhiên cho nó
-                    // Khi insert 1 dòng mới vào bảng THONGTINSUDUNG thì dùng giá trị này làm TGBATDAU và TGKETTHUC
-                    // Điều này không ảnh hưởng gì đến tính chính xác của dữ liệu vì trigger sẽ tự động tính lại TGBATDAU và TGKETTHUC
-                    LocalDateTime l = LocalDateTime.now();
+        if (selectedMT != null) {
+            String maMay = selectedMT.getMaMay();
 
-                    thongTinSuDung.setTgBatDau(l);
-                    thongTinSuDung.setTgKetThuc(l);
-                    thongTinSuDung.setDangSuDung(true);
+            TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+            try {
+                List<TaiKhoan> lstTaiKhoan = taiKhoanDAO.getAll();
+                boolean matchFound = false;
 
-                    // Sử dụng một DAO mới để thêm dữ liệu mới vào bảng THONGTINSUDUNG
-                    ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
-                    try {
-                        thongTinSuDungDAO.addThongTinSuDung(thongTinSuDung);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        // Xử lý khi có lỗi xảy ra trong quá trình thêm dữ liệu mới vào bảng THONGTINSUDUNG
+                for (TaiKhoan taiKhoan : lstTaiKhoan) {
+                    if (taiKhoan.getUsername().equals(username) && taiKhoan.getSdt().equals(sdt)) {
+                        matchFound = true;
+
+                        ThongTinSuDung thongTinSuDung = new ThongTinSuDung();
+                        thongTinSuDung.setMaMay(maMay);
+                        thongTinSuDung.setUsername(username);
+                        thongTinSuDung.setSdt(sdt);
+                        LocalDateTime now = LocalDateTime.now();
+
+                        thongTinSuDung.setTgBatDau(now);
+                        thongTinSuDung.setTgKetThuc(now);
+
+                        thongTinSuDung.setDangSuDung(true);
+
+                        ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
+                        try {
+                            thongTinSuDungDAO.addThongTinSuDung(thongTinSuDung);
+                            System.out.println("Đã thêm thông tin sử dụng vào CSDL.");
+                            setButtonStatus(selectedComputer, true,selectedMT);
+                        } catch (Exception e) {
+                            System.err.println("Lỗi khi thêm thông tin sử dụng vào CSDL:");
+                            e.printStackTrace();
+                            // Xử lý khi có lỗi xảy ra trong quá trình thêm dữ liệu mới vào bảng THONGTINSUDUNG
+                        }
+                        break;
                     }
-                    break;
                 }
+
+                if (!matchFound) {
+                    System.out.println("Không tìm thấy trùng khớp thông tin người dùng trong CSDL.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Xử lý khi có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
             }
-            if (!matchFound) {
-                System.out.println("Error line 203");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Xử lý khi có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
+        } else {
+            System.out.println("Không có máy tính nào được chọn.");
         }
     }
 
 
-    public void handleButtonAction_PT2(ActionEvent event) {
-        Button clickedButton = (Button)event.getSource();
-        // Kiểm tra nếu nút có màu xanh
-        if (clickedButton.getStyle().contains("background-color: #00FF00;")) {
-            // Cập nhật máy tính hiện tại được chọn
-            selectedComputer = clickedButton;
-            // Hiển thị optionsPanel nếu nút có màu xanh
-            optionsPanelPT2.setVisible(true);
-            //optionsPanelVIP.setVisible(true);
-            optionsPanelPT2.setLayoutX(clickedButton.getLayoutX());
-            optionsPanelPT2.setLayoutY(clickedButton.getLayoutY() + clickedButton.getHeight());
+
+
+    public void handleSaveActionPT2(ActionEvent event) {
+
+        String username2 = PT2_Active_text_Field_name.getText();
+        String sdt2 = PT2_Active_text_Field_SDT.getText();
+
+        if (selectedMT != null) {
+            String maMay = selectedMT.getMaMay();
+
+            TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+            try {
+                List<TaiKhoan> lstTaiKhoan = taiKhoanDAO.getAll();
+                boolean matchFound = false;
+
+                for (TaiKhoan taiKhoan : lstTaiKhoan) {
+                    if (taiKhoan.getUsername().equals(username2) && taiKhoan.getSdt().equals(sdt2)) {
+                        matchFound = true;
+
+                        ThongTinSuDung thongTinSuDung = new ThongTinSuDung();
+                        thongTinSuDung.setMaMay(maMay);
+                        thongTinSuDung.setUsername(username2);
+                        thongTinSuDung.setSdt(sdt2);
+                        LocalDateTime now = LocalDateTime.now();
+
+                        thongTinSuDung.setTgBatDau(now);
+                        thongTinSuDung.setTgKetThuc(now);
+
+                        thongTinSuDung.setDangSuDung(true);
+
+                        ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
+                        try {
+                            thongTinSuDungDAO.addThongTinSuDung(thongTinSuDung);
+                            System.out.println("Đã thêm thông tin sử dụng vào CSDL.");
+                            setButtonStatus(selectedComputer, true,selectedMT);
+                        } catch (Exception e) {
+                            System.err.println("Lỗi khi thêm thông tin sử dụng vào CSDL:");
+                            e.printStackTrace();
+                            // Xử lý khi có lỗi xảy ra trong quá trình thêm dữ liệu mới vào bảng THONGTINSUDUNG
+                        }
+                        break;
+                    }
+                }
+
+                if (!matchFound) {
+                    System.out.println("Không tìm thấy trùng khớp thông tin người dùng trong CSDL.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Xử lý khi có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
+            }
         } else {
-            // Ẩn optionsPanel nếu nút không có màu xanh
-            optionsPanelRed_PT2.setVisible(true);
-            optionsPanelRed_PT2.setLayoutX(clickedButton.getLayoutX());
-            optionsPanelRed_PT2.setLayoutY(clickedButton.getLayoutY() + clickedButton.getHeight());
+            System.out.println("Không có máy tính nào được chọn.");
+        }
+
+
+    }
+
+    public void handleTurnOffAction(ActionEvent event) {
+        if (selectedMT != null) {
+            String maMay = selectedMT.getMaMay();
+
+            // Lấy thông tin từ THONGTINSUDUNG dựa trên mã máy và DANGSUDUNG là true
+            ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
+            try {
+                ThongTinSuDung thongTinSuDung = thongTinSuDungDAO.getByMaMayAndDangSuDung(maMay, true);
+                if (thongTinSuDung != null) {
+                    // Đối chiếu với thông tin trong TAIKHOAN
+                    TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+                    TaiKhoan taiKhoan = taiKhoanDAO.getByUsernameAndSDT(thongTinSuDung.getUsername(), thongTinSuDung.getSdt());
+                    taiKhoanDAO.updateDangSuDungByUsernameAndSDT(thongTinSuDung.getUsername(), thongTinSuDung.getSdt(), false);
+                    setButtonStatus(selectedComputer, false,selectedMT);
+
+                    // Hiển thị thông báo với giá trị SOTIEN từ TAIKHOAN
+                    //int soTien = (int) taiKhoan.getSoTien();
+
+                    // Hiển thị thông báo với giá trị soTien, ví dụ sử dụng Alert
+                    // AlertType.CONFIRMATION có thể thay bằng kiểu thông báo phù hợp
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Thông báo");
+                    alert.setHeaderText("Tắt máy thành công !");
+                    alert.showAndWait();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Xử lý khi có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
+            }
+        } else {
+            System.out.println("Không có máy tính nào được chọn.");
         }
     }
 
+    public void handleTurnOffActionPT2(ActionEvent event) {
+        if (selectedMT != null) {
+            String maMay = selectedMT.getMaMay();
 
-    public void handleButtonAction_VIP(ActionEvent event) {
-        Button clickedButton = (Button)event.getSource();
-        // Kiểm tra nếu nút có màu xanh
-        if (clickedButton.getStyle().contains("background-color: #00FF00;")) {
-            // Cập nhật máy tính hiện tại được chọn
-            selectedComputer = clickedButton;
-            // Hiển thị optionsPanel nếu nút có màu xanh
-            optionsPanelVIP.setVisible(true);
-            //optionsPanelVIP.setVisible(true);
-            optionsPanelVIP.setLayoutX(clickedButton.getLayoutX());
-            optionsPanelVIP.setLayoutY(clickedButton.getLayoutY() + clickedButton.getHeight());
+            // Lấy thông tin từ THONGTINSUDUNG dựa trên mã máy và DANGSUDUNG là true
+            ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
+            try {
+                ThongTinSuDung thongTinSuDung = thongTinSuDungDAO.getByMaMayAndDangSuDung(maMay, true);
+                if (thongTinSuDung != null) {
+                    // Đối chiếu với thông tin trong TAIKHOAN
+                    TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+                    TaiKhoan taiKhoan = taiKhoanDAO.getByUsernameAndSDT(thongTinSuDung.getUsername(), thongTinSuDung.getSdt());
+                    taiKhoanDAO.updateDangSuDungByUsernameAndSDT(thongTinSuDung.getUsername(), thongTinSuDung.getSdt(), false);
+                    setButtonStatus(selectedComputer, false,selectedMT);
+
+                    // Hiển thị thông báo với giá trị SOTIEN từ TAIKHOAN
+
+
+                    int soTien = (int) taiKhoan.getSoTien();
+
+                    // Hiển thị thông báo với giá trị soTien, ví dụ sử dụng Alert
+                    // AlertType.CONFIRMATION có thể thay bằng kiểu thông báo phù hợp
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Thông báo");
+                    alert.setHeaderText("Số tiền trong tài khoản của bạn là: " + soTien);
+                    alert.showAndWait();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Xử lý khi có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
+            }
         } else {
-            // Ẩn optionsPanel nếu nút không có màu xanh
-            optionsPanelRed_VIP.setVisible(true);
-            optionsPanelRed_VIP.setLayoutX(clickedButton.getLayoutX());
-            optionsPanelRed_VIP.setLayoutY(clickedButton.getLayoutY() + clickedButton.getHeight());
+            System.out.println("Không có máy tính nào được chọn.");
+        }
+    }
+
+    public void handleRechargeAction(ActionEvent event) {
+        // Hiển thị TextField khi nhấn nút Recharge
+        PT1_Type_Money_Pane.setVisible(true); // Giả sử PT1_Type_Money_Pane là AnchorPane chứa TextField PT1_Type_Money
+    }
+
+    public void handleOKAction(ActionEvent event) {
+        if (selectedMT != null) {
+            String maMay = selectedMT.getMaMay();
+
+            // Lấy thông tin từ THONGTINSUDUNG dựa trên mã máy và DANGSUDUNG là true
+            ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
+            try {
+                ThongTinSuDung thongTinSuDung = thongTinSuDungDAO.getByMaMayAndDangSuDung(maMay, true);
+                // Lấy số tiền từ TextField PT1_Type_Money và chuyển đổi sang kiểu int
+                int rechargeAmount = Integer.parseInt(PT1_Type_Money.getText());
+
+                // Lấy thông tin tài khoản từ table MAYTINH
+                TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+                TaiKhoan taiKhoan = taiKhoanDAO.getByUsernameAndSDT(thongTinSuDung.getUsername(), thongTinSuDung.getSdt());
+
+                // Cộng giá trị mới vào cột SOTIEN của tài khoản
+                int newBalance = (int) (taiKhoan.getSoTien() + rechargeAmount);
+                taiKhoan.setSoTien(newBalance);
+                taiKhoanDAO.updateTaiKhoan(taiKhoan);
+
+                // Hiển thị thông báo với giá trị mới của cột SOTIEN
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông báo");
+                alert.setHeaderText("Số tiền trong tài khoản của bạn sau khi nạp là: " + newBalance);
+                alert.showAndWait();
+
+                // Ẩn TextField sau khi xử lý xong
+                PT1_Type_Money_Pane.setVisible(false);
+            } catch (NumberFormatException e) {
+                // Xử lý nếu người dùng nhập không đúng định dạng số
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Lỗi");
+                alert.setHeaderText("Vui lòng nhập số tiền hợp lệ.");
+                alert.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Xử lý khi có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
+            }
         }
     }
 
@@ -283,37 +469,13 @@ public class controllerMainForm implements Initializable {
             optionsPanelRed_VIP.setVisible(false);
         }
 
-    }
-
-    public void loadDataToAnchorPane(String maMay, AnchorPane anchorPane) {
-        try {
-//            Connection conn = DriverManager.getConnection(controllerConnect.getUrl());
-//            String query = "SELECT MAMAY, PHONG FROM MAYTINH WHERE MAMAY = ?";
-//
-//            PreparedStatement preparedStatement = conn.prepareStatement(query);
-//            preparedStatement.setString(1, maMay);
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            if (resultSet.next()) {
-//                String retrievedMaMay = resultSet.getString("MAMAY");
-//                String phong = resultSet.getString("PHONG");
-//
-//                controllerComputerInfo computerInfo = new controllerComputerInfo();
-//                computerInfo.setMaMay(retrievedMaMay);
-//                computerInfo.setPhong(phong);
-//
-//                anchorPane.setUserData(computerInfo);
-//            }
-//
-//            conn.close();
-            MayTinhDAO dao = new MayTinhDAO();
-            MayTinh mt = dao.findByMamay(maMay);
-            if (mt != null) {
-                anchorPane.setUserData(mt);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!PT1_Active_Pane.getBoundsInParent().contains(event.getX(), event.getY())) {
+            PT1_Active_Pane.setVisible(false);
         }
+        if (!PT1_Type_Money_Pane.getBoundsInParent().contains(event.getX(), event.getY())) {
+            PT1_Type_Money_Pane.setVisible(false);
+        }
+
     }
 
 }

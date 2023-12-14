@@ -2,11 +2,9 @@ package management.DAO;
 
 import management.config.DatabaseConfig;
 import management.model.TaiKhoan;
+import management.model.ThongTinSuDung;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +27,7 @@ public class TaiKhoanDAO {
                 tk.setRole(rs.getBoolean("ROLE"));
                 tk.setHangThanhVien(rs.getString("HANGTHANHVIEN"));
                 tk.setSoPhutDaDung(rs.getInt("SOPHUTDADUNG"));
-                tk.setSoTien(rs.getDouble("SOTIEN"));
+                tk.setSoTien(rs.getDouble("SOTIENCONLAI"));
                 tk.setDangSuDung(rs.getBoolean("DANGSUDUNG"));
 
                 lstTaiKhoan.add(tk);
@@ -39,7 +37,7 @@ public class TaiKhoanDAO {
     }
 
     public boolean insert(TaiKhoan tk) throws Exception {
-        String sql = "INSERT INTO TAIKHOAN(USERNAME, SDT, PASSWORD, ROLE, HANGTHANHVIEN, SOPHUTDADUNG, SOTIEN, DANGSUDUNG) " +
+        String sql = "INSERT INTO TAIKHOAN(USERNAME, SDT, PASSWORD, ROLE, HANGTHANHVIEN, SOPHUTDADUNG, SOTIENCONLAI, DANGSUDUNG) " +
                      "VALUES (?, ?, ?, 0, NULL, 0, 0, 0)";
         try (
                 Connection con = DatabaseConfig.openConnection();
@@ -72,7 +70,7 @@ public class TaiKhoanDAO {
                 tk.setRole(rs.getBoolean("ROLE"));
                 tk.setHangThanhVien(rs.getString("HANGTHANHVIEN"));
                 tk.setSoPhutDaDung(rs.getInt("SOPHUTDADUNG"));
-                tk.setSoTien(rs.getDouble("SOTIEN"));
+                tk.setSoTien(rs.getDouble("SOTIENCONLAI"));
                 tk.setDangSuDung(rs.getBoolean("DANGSUDUNG"));
                 return tk;
             }
@@ -99,7 +97,7 @@ public class TaiKhoanDAO {
                 tk.setRole(rs.getBoolean("ROLE"));
                 tk.setHangThanhVien(rs.getString("HANGTHANHVIEN"));
                 tk.setSoPhutDaDung(rs.getInt("SOPHUTDADUNG"));
-                tk.setSoTien(rs.getDouble("SOTIEN"));
+                tk.setSoTien(rs.getDouble("SOTIENCONLAI"));
                 tk.setDangSuDung(rs.getBoolean("DANGSUDUNG"));
                 return tk;
             }
@@ -109,7 +107,7 @@ public class TaiKhoanDAO {
     }
 
     public boolean update(TaiKhoan tk) throws Exception {
-        String sql = "UPDATE TAIKHOAN SET PASSWORD = ?, ROLE = ?, HANGTHANHVIEN = ?, SOPHUTDADUNG = ?, SOTIEN = ?, DANGSUDUNG = ? WHERE USERNAME = ?, SDT = ?";
+        String sql = "UPDATE TAIKHOAN SET PASSWORD = ?, ROLE = ?, HANGTHANHVIEN = ?, SOPHUTDADUNG = ?, SOTIENCONLAI = ?, DANGSUDUNG = ? WHERE USERNAME = ?, SDT = ?";
         try (
                 Connection con = DatabaseConfig.openConnection();
                 PreparedStatement pstm = con.prepareStatement(sql);
@@ -142,4 +140,81 @@ public class TaiKhoanDAO {
             return pstm.executeUpdate() > 0;
         }
     }
+
+
+    public TaiKhoan getByUsernameAndSDT(String username, String sdt) throws Exception {
+        TaiKhoan taiKhoan = null;
+        String sql = "SELECT * FROM TAIKHOAN WHERE USERNAME = ? AND SDT = ?";
+
+        try (
+                Connection con = DatabaseConfig.openConnection();
+                PreparedStatement pstm = con.prepareStatement(sql);
+        ) {
+            pstm.setString(1, username);
+            pstm.setString(2, sdt);
+
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    taiKhoan = new TaiKhoan();
+                    taiKhoan.setUsername(rs.getString("USERNAME"));
+                    taiKhoan.setSdt(rs.getString("SDT"));
+                    taiKhoan.setSoTien(rs.getInt("SOTIENCONLAI"));
+                    // Lấy thông tin khác từ bảng TAIKHOAN
+                    // ...
+                }
+            }
+        }
+
+        return taiKhoan;
+    }
+
+
+    public void updateDangSuDungByUsernameAndSDT(String username, String sdt, boolean dangSuDung) throws Exception {
+        String sql = "UPDATE TAIKHOAN SET DANGSUDUNG = ? WHERE USERNAME = ? AND SDT = ?";
+        try (
+                Connection con = DatabaseConfig.openConnection();
+                PreparedStatement pstm = con.prepareStatement(sql);
+        ) {
+            pstm.setBoolean(1, dangSuDung);
+            pstm.setString(2, username);
+            pstm.setString(3, sdt);
+
+            int rowsAffected = pstm.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Đã cập nhật giá trị DANGSUDUNG trong bảng TAIKHOAN.");
+            } else {
+                System.out.println("Không có dữ liệu nào được cập nhật trong bảng TAIKHOAN.");
+            }
+        }
+    }
+
+    public void updateTaiKhoan(TaiKhoan taiKhoan) {
+        String sql = "UPDATE TAIKHOAN SET SOTIENCONLAI = ? WHERE USERNAME = ?";
+
+        try (
+                Connection con = DatabaseConfig.openConnection();
+                PreparedStatement pstm = con.prepareStatement(sql);
+        ) {
+            pstm.setInt(1, (int) taiKhoan.getSoTien());
+            pstm.setString(2, taiKhoan.getUsername());
+
+            int rowsUpdated = pstm.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Tài khoản đã được cập nhật thành công.");
+            } else {
+                System.out.println("Không có dữ liệu nào được cập nhật.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi cập nhật tài khoản:");
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
+
+
+
