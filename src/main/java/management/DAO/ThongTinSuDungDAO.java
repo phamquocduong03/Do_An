@@ -4,6 +4,7 @@ import management.config.DatabaseConfig;
 import management.model.ThongTinSuDung;
 
 
+import javax.xml.crypto.Data;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.Connection;
@@ -109,6 +110,28 @@ public class ThongTinSuDungDAO {
         }
     }
 
+    public ThongTinSuDung getByMaMayAndDangSuDungIsTrue(String maMay) throws Exception {
+        String sql = "SELECT * FROM THONGTINSUDUNG WHERE DANGSUDUNG = 1 AND MAY = ?";
+
+        try (
+                Connection con = DatabaseConfig.openConnection();
+                PreparedStatement pstm = con.prepareStatement(sql);
+                ) {
+            pstm.setString(1, maMay);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                ThongTinSuDung thongTinSuDung = new ThongTinSuDung();
+                thongTinSuDung.setUsername(rs.getString("TAIKHOAN"));
+                thongTinSuDung.setSdt(rs.getString("SDT"));
+                thongTinSuDung.setMaMay(rs.getString("MAY"));
+                thongTinSuDung.setTgBatDau(rs.getTimestamp("TGBATDAU").toLocalDateTime());
+                thongTinSuDung.setTgKetThuc(rs.getTimestamp("TGKETTHUC").toLocalDateTime());
+                thongTinSuDung.setDangSuDung(rs.getBoolean("DANGSUDUNG"));
+                return thongTinSuDung;
+            }
+            return null;
+        }
+    }
 }
 
 

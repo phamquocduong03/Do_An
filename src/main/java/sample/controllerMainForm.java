@@ -173,18 +173,64 @@ public class controllerMainForm implements Initializable {
     }
 
     Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(1),
-                e-> {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime truncatedNow = now.truncatedTo(ChronoUnit.SECONDS);
-
-                    LocalDateTime dt1 = LocalDateTime.of(2023, Month.DECEMBER, 14, 22, 20, 50);
-                    LocalDateTime truncatedDt1 = dt1.truncatedTo(ChronoUnit.SECONDS);
-                    if (truncatedNow.isEqual(truncatedDt1)) {
-                        System.out.println("ALARM");
+        new KeyFrame(Duration.seconds(1),
+            e-> {
+                ThongTinSuDungDAO dao = new ThongTinSuDungDAO();
+                // Tạo 1 mảng để lưu trữ các máy đang online
+                ThongTinSuDung[] pT1 = new ThongTinSuDung[12];
+                try {
+                    for (int i = 0; i < 12; i++) {
+                        pT1[i] = dao.getByMaMayAndDangSuDungIsTrue(selectedMT.getMaMay());
                     }
-                    timer.setText(LocalDateTime.now().format(formatter));
-    }));
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime truncatedNow = now.truncatedTo(ChronoUnit.SECONDS);
+
+                // Duyệt qua từng máy, nếu máy đó đang online thì thực hiện
+                for (ThongTinSuDung x : pT1) {
+                    if (x != null) {
+                        LocalDateTime tgKetThuc = x.getTgKetThuc();
+                        LocalDateTime truncatedTgKetThuc = tgKetThuc.truncatedTo(ChronoUnit.SECONDS);
+                        if (truncatedNow.isEqual(truncatedTgKetThuc)) {
+                            String maMay = selectedMT.getMaMay();
+
+                            // Lấy thông tin từ THONGTINSUDUNG dựa trên mã máy và DANGSUDUNG là true
+                            ThongTinSuDungDAO thongTinSuDungDAO = new ThongTinSuDungDAO();
+                            try {
+                                ThongTinSuDung thongTinSuDung = thongTinSuDungDAO.getByMaMayAndDangSuDung(maMay, true);
+                                if (thongTinSuDung != null) {
+                                    // Đối chiếu với thông tin trong TAIKHOAN
+                                    TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
+                                    TaiKhoan taiKhoan = taiKhoanDAO.getByUsernameAndSDT(thongTinSuDung.getUsername(), thongTinSuDung.getSdt());
+                                    taiKhoanDAO.updateDangSuDungByUsernameAndSDT(thongTinSuDung.getUsername(), thongTinSuDung.getSdt(), false);
+                                    setButtonStatus(selectedComputer, false,selectedMT);
+
+                                    // Hiển thị thông báo với giá trị SOTIEN từ TAIKHOAN
+                                    //int soTien = (int) taiKhoan.getSoTien();
+
+                                    // Hiển thị thông báo với giá trị soTien, ví dụ sử dụng Alert
+                                    // AlertType.CONFIRMATION có thể thay bằng kiểu thông báo phù hợp
+                                    Platform.runLater(() -> {
+                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                        alert.setTitle("Thông báo");
+                                        alert.setHeaderText("Máy " + selectedMT.getMaMay() + " hết giờ !");
+                                        alert.showAndWait();
+                                    });
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                                // Xử lý khi có lỗi xảy ra trong quá trình truy xuất cơ sở dữ liệu
+                            }
+                        }
+                    }
+                }
+                timer.setText(LocalDateTime.now().format(formatter));
+            }
+        )
+    );
 
     public void setButtonStatus(Button button, boolean isUsed, MayTinh mayTinh) {
         if (isUsed) {

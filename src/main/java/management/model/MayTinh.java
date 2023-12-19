@@ -76,4 +76,17 @@ public class MayTinh {
     public void setNgayMua(Date ngayMua) {
         this.ngayMua = ngayMua;
     }
+
+    @Override
+    public String toString() {
+        return "MayTinh{" +
+                "maMay='" + maMay + '\'' +
+                ", phong='" + phong + '\'' +
+                ", baoHanh=" + baoHanh +
+                ", thoiGianDung=" + thoiGianDung +
+                ", coSan=" + coSan +
+                ", trangThai=" + trangThai +
+                ", ngayMua=" + ngayMua +
+                '}';
+    }
 }

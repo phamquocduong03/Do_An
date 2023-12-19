@@ -33,7 +33,7 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <Label layoutX="14.0" layoutY="118.0" text="WELCOME ADMIN" textFill="WHITE">
+                              <Label layoutX="37.0" layoutY="118.0" text="WELCOME ADMIN" textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
